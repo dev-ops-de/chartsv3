@@ -1,0 +1,11 @@
+description: Buttons page
+engine: gotpl
+maintainers:
+- email: doom@dev-ops.de
+  name: Dr. Doom
+name: buttons
+sources:
+- https://github.com/coreos/prometheus-operator
+version: 0.0.3
+appVersion: 0.0.3
+kubeVersion: "^1.8.0-0"

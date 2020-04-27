@@ -1,0 +1,58 @@
+rancher_max_version: 2.3.1
+categories:
+- dashboard
+questions:
+- variable: defaultImage
+  default: "true"
+  description: "Use default Docker image"
+  label: Use Default Image
+  type: boolean
+  show_subquestion_if: false
+  group: "Container Images"
+  subquestions:
+  - variable: image.repository
+    default: "diceone/micro_buttons"
+    description: "Buttons image name"
+    type: string
+    label: Buttons Image Name
+  - variable: image.tag
+    default: "v0.0.3"
+    description: "Buttons image tag"
+    type: string
+    label: Buttons Image Tag
+- variable: ingress.enabled
+  default: "true"
+  description: "Expose Buttons using Layer 7 Load Balancer - ingress"
+  type: boolean
+  label: Expose Buttons using Layer 7 Load Balancer
+  show_subquestion_if: true
+  group: "Service and Load Balancing"
+  required: true
+  subquestions:
+  - variable: ingress.hosts[0]
+    default: "www.lalelu.la"
+    description: "Hostname to your Buttons installation"
+    type: hostname
+    required: true
+    label: Hostname
+- variable: service.type
+  default: "NodePort"
+  description: "Buttons service type"
+  type: enum
+  group: "Service and Load Balancing"
+  options:
+    - "ClusterIP"
+    - "NodePort"
+  required: true
+  label: Buttons Service Type
+  show_subquestion_if: "NodePort"
+  show_if: "ingress.enabled=false"
+  subquestions:
+  - variable: service.nodePort
+    default: ""
+    description: "NodePort http port(to set explicitly, choose port between 30000-32767)"
+    type: int
+    min: 30000
+    max: 32767
+    show_if: "ingress.enabled=false"
+    label: Buttons NodePort Number

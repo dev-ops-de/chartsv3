@@ -1,0 +1,19 @@
+{{- if .Values.global.rbacEnable }}
+{{- if .Values.global.pspEnable }}
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  labels:
+    app: {{ template "buttons.fullname" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  name: psp-{{ template "buttons.server.fullname" . }}
+rules:
+- apiGroups: ['extensions']
+  resources: ['podsecuritypolicies']
+  verbs:     ['use']
+  resourceNames:
+  - {{ template "buttons.server.fullname" . }}
+{{- end }}
+{{- end }}
